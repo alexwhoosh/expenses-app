@@ -1,6 +1,9 @@
 import ExpenseItem from "./components/ExpenseItem";
 
 function App() {
+
+  console.log("Hello world");
+  
   return (
     <div>
       <h2>Let's get started!</h2>
