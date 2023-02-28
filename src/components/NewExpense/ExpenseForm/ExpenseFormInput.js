@@ -2,17 +2,17 @@ import React from "react";
 
 import "./ExpenseFormInput.css";
 
-const ExpenseFormInput = (props) => {
+const ExpenseFormInput = ({label, value, type, min, max, step, onChange}) => {
     return (
         <div className="new-expense__control">
-            <label>{props.labelName}</label>
+            <label>{label}</label>
             <input 
-                value={props.inputValue}
-                type={props.inputType}
-                min={props.inputMin}
-                max={props.inputMax}
-                step={props.inputStep}
-                onChange={props.onChange}
+                value={value}
+                type={type}
+                min={min}
+                max={max}
+                step={step}
+                onChange={event => onChange(event.target.value)}
             />
         </div>
     )

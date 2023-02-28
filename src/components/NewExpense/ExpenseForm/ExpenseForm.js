@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import "./ExpenseForm.css";
 import ExpenseFormInput from "./ExpenseFormInput";
 
-const ExpenseForm = (props) => {
+const ExpenseForm = ({onSaveExpenseData}) => {
     // using single state for various inputs instead of multiple states
     
     // const [userInput, setUserInput] = useState({
@@ -28,19 +28,25 @@ const ExpenseForm = (props) => {
     // };
 
     const [title, setTitle] = useState("");
-    const [amount, setAmount] = useState(0);
+    const [amount, setAmount] = useState("");
     const [date, setDate] = useState("");
     
-    const onTitleChangeHandler = event => {
-        setTitle(event.target.value);
+    const onTitleChange = value => {
+        setTitle(value);
     };
     
-    const onAmountChangeHandler = event => {
-        setAmount(event.target.value);
+    const onAmountChange = value => {
+        setAmount(value);
     };
     
-    const onDateChangeHandler = event => {
-        setDate(event.target.value);
+    const onDateChange = value => {
+        setDate(value);
+    };
+
+    const resetFormState = () => {
+        setTitle("");
+        setAmount("");
+        setDate("");
     };
 
     const submitHandler = event => {
@@ -52,36 +58,34 @@ const ExpenseForm = (props) => {
             date: new Date(date),
         };
 
-        props.onSaveExpenseData(expenseData);
-        setTitle("");
-        setAmount("");
-        setDate("");
+        onSaveExpenseData(expenseData);
+        resetFormState();
     };
     
     return (
         <form onSubmit={submitHandler}>
             <div className="new-expense__controls">
                 <ExpenseFormInput 
-                    labelName="Title" 
-                    inputValue={title}
-                    inputType="text"
-                    onChange={onTitleChangeHandler} 
+                    label="Title" 
+                    value={title}
+                    type="text"
+                    onChange={onTitleChange} 
                 />
                 <ExpenseFormInput 
-                    labelName="Amount" 
-                    inputValue={amount}
-                    inputType="number" 
-                    inputMin="0.01"
-                    inputStep="0.01"
-                    onChange={onAmountChangeHandler}
+                    label="Amount" 
+                    value={amount}
+                    type="number" 
+                    min="0.01"
+                    step="0.01"
+                    onChange={onAmountChange}
                 />
                 <ExpenseFormInput 
-                    labelName="Date"
-                    inputValue={date} 
-                    inputType="date" 
-                    inputMin="2020-01-01"
-                    inputMax="2024-12-31"
-                    onChange={onDateChangeHandler}
+                    label="Date"
+                    value={date} 
+                    type="date" 
+                    min="2020-01-01"
+                    max="2024-12-31"
+                    onChange={onDateChange}
                 />
             </div>
             <div className="new-expense__actions">
