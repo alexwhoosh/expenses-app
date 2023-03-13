@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import "./ExpenseForm.css";
 import ExpenseFormInput from "./ExpenseFormInput/ExpenseFormInput";
 
-const ExpenseForm = ({onSaveExpenseData}) => {
+const ExpenseForm = ({onSaveExpenseData, onCancel}) => {
     // using single state for various inputs instead of multiple states
     
     // const [userInput, setUserInput] = useState({
@@ -60,68 +60,40 @@ const ExpenseForm = ({onSaveExpenseData}) => {
 
         onSaveExpenseData(expenseData);
         resetFormState();
-        toggleExpenseForm(false);
+        onCancel();
     };
-
-
-    const [formVisible, setFormVisible] = useState(false);
-    const [newExpenseButtonVisible, setnewExpenseButtonVisible] = useState(true);
-    
-    const toggleExpenseForm = (value) => {
-        setFormVisible(value);
-        setnewExpenseButtonVisible(!value);
-    };
-
-    const newExpenseButton  = (
-        <button onClick={() => toggleExpenseForm(true)}>Add New Expense</button>
-    );   
-    
-    const formInputs = (
-        <div>
-            <div className="new-expense__controls">
-                <ExpenseFormInput 
-                    label="Title" 
-                    value={title}
-                    type="text"
-                    onChange={onTitleChange} 
-                />
-                <ExpenseFormInput 
-                    label="Amount" 
-                    value={amount}
-                    type="number" 
-                    min="0.01"
-                    step="0.01"
-                    onChange={onAmountChange}
-                />
-                <ExpenseFormInput 
-                    label="Date"
-                    value={date} 
-                    type="date" 
-                    min="2020-01-01"
-                    max="2024-12-31"
-                    onChange={onDateChange}
-                />
-            </div>
-        </div>
-    );
-
-    const formButtons = (
-        <div>
-            <div className="new-expense__actions">
-                <button onClick={() => toggleExpenseForm(false)}>Cancel</button>
-            </div>
-            <div className="new-expense__actions">
-                <button type="submit">Add Expense</button>
-            </div>
-        </div>
-    );
     
     return (
         <form onSubmit={submitHandler}>
             <div className="new-expense__actions">
-                {newExpenseButtonVisible && newExpenseButton}
-                {formVisible && formInputs}
-                {formVisible && formButtons}
+                <div className="new-expense__controls">
+                    <ExpenseFormInput 
+                        label="Title" 
+                        value={title}
+                        type="text"
+                        onChange={onTitleChange} 
+                    />
+                    <ExpenseFormInput 
+                        label="Amount" 
+                        value={amount}
+                        type="number" 
+                        min="0.01"
+                        step="0.01"
+                        onChange={onAmountChange}
+                    />
+                    <ExpenseFormInput 
+                        label="Date"
+                        value={date} 
+                        type="date" 
+                        min="2020-01-01"
+                        max="2024-12-31"
+                        onChange={onDateChange}
+                    />
+                </div>
+                <div className="new-expense__actions">
+                    <button type="button" onClick={onCancel}>Cancel</button>
+                    <button type="submit">Add Expense</button>
+                </div>
             </div>
         </form>
     );
