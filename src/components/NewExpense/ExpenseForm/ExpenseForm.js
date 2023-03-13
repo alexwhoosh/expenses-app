@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import "./ExpenseForm.css";
-import ExpenseFormInput from "./ExpenseFormInput";
+import ExpenseFormInput from "./ExpenseFormInput/ExpenseFormInput";
 
 const ExpenseForm = ({onSaveExpenseData}) => {
     // using single state for various inputs instead of multiple states
@@ -60,10 +60,24 @@ const ExpenseForm = ({onSaveExpenseData}) => {
 
         onSaveExpenseData(expenseData);
         resetFormState();
+        toggleExpenseForm(false);
     };
+
+
+    const [formVisible, setFormVisible] = useState(false);
+    const [newExpenseButtonVisible, setnewExpenseButtonVisible] = useState(true);
     
-    return (
-        <form onSubmit={submitHandler}>
+    const toggleExpenseForm = (value) => {
+        setFormVisible(value);
+        setnewExpenseButtonVisible(!value);
+    };
+
+    const newExpenseButton  = (
+        <button onClick={() => toggleExpenseForm(true)}>Add New Expense</button>
+    );   
+    
+    const formInputs = (
+        <div>
             <div className="new-expense__controls">
                 <ExpenseFormInput 
                     label="Title" 
@@ -88,8 +102,26 @@ const ExpenseForm = ({onSaveExpenseData}) => {
                     onChange={onDateChange}
                 />
             </div>
+        </div>
+    );
+
+    const formButtons = (
+        <div>
+            <div className="new-expense__actions">
+                <button onClick={() => toggleExpenseForm(false)}>Cancel</button>
+            </div>
             <div className="new-expense__actions">
                 <button type="submit">Add Expense</button>
+            </div>
+        </div>
+    );
+    
+    return (
+        <form onSubmit={submitHandler}>
+            <div className="new-expense__actions">
+                {newExpenseButtonVisible && newExpenseButton}
+                {formVisible && formInputs}
+                {formVisible && formButtons}
             </div>
         </form>
     );
