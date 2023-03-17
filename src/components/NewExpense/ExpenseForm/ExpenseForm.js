@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 
 import "./ExpenseForm.css";
-import ExpenseFormInput from "./ExpenseFormInput";
+import ExpenseFormInput from "./ExpenseFormInput/ExpenseFormInput";
 
-const ExpenseForm = ({onSaveExpenseData}) => {
+const ExpenseForm = ({onSaveExpenseData, onCancel}) => {
     // using single state for various inputs instead of multiple states
     
     // const [userInput, setUserInput] = useState({
@@ -54,42 +54,46 @@ const ExpenseForm = ({onSaveExpenseData}) => {
 
         const expenseData = {
             title: title,
-            amount: amount,
+            amount: +amount,
             date: new Date(date),
         };
 
         onSaveExpenseData(expenseData);
         resetFormState();
+        onCancel();
     };
     
     return (
         <form onSubmit={submitHandler}>
-            <div className="new-expense__controls">
-                <ExpenseFormInput 
-                    label="Title" 
-                    value={title}
-                    type="text"
-                    onChange={onTitleChange} 
-                />
-                <ExpenseFormInput 
-                    label="Amount" 
-                    value={amount}
-                    type="number" 
-                    min="0.01"
-                    step="0.01"
-                    onChange={onAmountChange}
-                />
-                <ExpenseFormInput 
-                    label="Date"
-                    value={date} 
-                    type="date" 
-                    min="2020-01-01"
-                    max="2024-12-31"
-                    onChange={onDateChange}
-                />
-            </div>
             <div className="new-expense__actions">
-                <button type="submit">Add Expense</button>
+                <div className="new-expense__controls">
+                    <ExpenseFormInput 
+                        label="Title" 
+                        value={title}
+                        type="text"
+                        onChange={onTitleChange} 
+                    />
+                    <ExpenseFormInput 
+                        label="Amount" 
+                        value={amount}
+                        type="number" 
+                        min="0.01"
+                        step="0.01"
+                        onChange={onAmountChange}
+                    />
+                    <ExpenseFormInput 
+                        label="Date"
+                        value={date} 
+                        type="date" 
+                        min="2020-01-01"
+                        max="2024-12-31"
+                        onChange={onDateChange}
+                    />
+                </div>
+                <div className="new-expense__actions">
+                    <button type="button" onClick={onCancel}>Cancel</button>
+                    <button type="submit">Add Expense</button>
+                </div>
             </div>
         </form>
     );
